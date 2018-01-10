@@ -9,7 +9,6 @@ class Article
 	private $content;
 	private $date;
 	private $url;
-	private $photo;
 
 	public function getTitle(): string
 	{
@@ -55,18 +54,6 @@ class Article
 	public function setUrl(string $url): Article
 	{
 		$this->url = $url;
-
-		return $this;
-	}
-
-	public function getPhoto(): string
-	{
-		return $this->photo;
-	}
-
-	public function setPhoto(string $photo): Article
-	{
-		$this->photo = $photo;
 
 		return $this;
 	}

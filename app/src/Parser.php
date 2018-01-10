@@ -2,11 +2,14 @@
 
 namespace App;
 
-class Parser
+use App\Article;
+
+class Parser implements \Iterator
 {
 
 	private $filename;
 	private $items;
+	private $position = 0;
 
 	public function __construct(string $filename)
 	{
@@ -14,6 +17,40 @@ class Parser
 		$this->items = [];
 	
 		$this->parse();
+	}
+
+	public function current()
+	{
+		$item = $this->items[$this->position];
+
+		$article = new Article();
+
+		$article->setTitle($item->title)
+				->setContent($item->description)
+				->setDate(new \DateTime($item->pubDate))
+				->setUrl($item->link);
+
+		return $article;
+	}
+
+	public function key()
+	{
+		return $this->position;
+	}
+
+	public function next()
+	{
+		++$this->position;
+	}
+
+	public function rewind()
+	{
+		$this->position = 0;
+	}
+
+	public function valid()
+	{
+		return isset($this->items[$this->position]);
 	}
 
 	private function parse()
@@ -25,15 +62,6 @@ class Parser
 		}
 
 		$this->items = $xml->channel->item;
-
-		echo '<article>';
-		foreach ($this->items as $item) {
-			echo '<h4>' . $item->title . '</h4>';
-			echo '<p>' . $item->pubDate . '</p>';
-			echo '<hr/>';
-		}
-		echo '</article>';
-
 	}
 
 }
