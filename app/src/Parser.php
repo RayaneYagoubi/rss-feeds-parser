@@ -11,7 +11,7 @@ class Parser implements \Iterator
 	private $items;
 	private $position = 0;
 
-	public function __construct(string $filename)
+	public function __construct($filename)
 	{
 		$this->filename = $filename;
 		$this->items = [];
